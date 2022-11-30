@@ -4,6 +4,7 @@
   - eGovFramework 3.9
   - Tomcat 3.5
   - postgresql
+  - DBever(없어도됌)
 
 - 시작방법
 
