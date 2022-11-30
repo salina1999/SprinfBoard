@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="BoardSpace">
+
+	<typeAlias  alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
+	<typeAlias  alias="BoardVO" type="egovframework.example.sample.service.BoardVO"/>
+	
+	<resultMap id="board" class="egovframework.example.sample.service.BoardVO">
+		<result property="bno" column="bno"/>
+		<result property="name" column="name"/>
+		<result property="age" column="age"/>
+		<result property="content" column="content"/>
+		<result property="regdate" column="regdate"/>
+	</resultMap>
+
+	<select id="boardDAO.countBoard"  resultClass="int">
+		SELECT COUNT(*) FROM test_board
+	</select>
+	
+	<select id="boardDAO.SelectBoardList" resultClass="BoardVO">
+		select (ROW_NUMBER() OVER(ORDER BY bno ASC)) as rownum, * 
+		from test_board
+		order by rownum DESC
+		limit #lastPage# offset #startPage#
+	</select>
+	
+	<!-- 리스트 삽입 -->
+	<insert id="boardDAO.insertBoard" parameterClass="BoardVO">
+		<![CDATA[
+			insert into test_board	(name, age, content)
+			values		(#name#, #age#, #content#) 
+		]]>
+	</insert>
+	
+	<!-- 상세페이지 목록 보여주기 -->
+	<select id="boardDAO.detail" resultClass="BoardVO">
+		<![CDATA[
+			select * from test_board
+			where bno = #bno#
+		]]>
+	</select>
+	
+ 	<!-- 리스트 삭제 --> 
+	<delete id="boardDAO.deleteBoardList" parameterClass="int">
+		<![CDATA[
+			delete from test_board
+			where bno = #bno#
+		]]>
+	</delete>
+	 
+	 <!-- 리스트 수정 -->
+	<update id="boardDAO.updateBoardList" parameterClass="BoardVO">
+		<![CDATA[
+			update	test_board
+			set		name = #name#, age = #age#, content = #content#
+			where	bno = #bno# 
+		]]>
+	</update>
+	
+
+</sqlMap>
