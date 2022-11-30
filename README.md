@@ -1,4 +1,4 @@
-# Spring CRUD Board 연습
+# Spring 연습용 CRUD Board 제작
 
 - Tool
   - eGovFramework 3.9
